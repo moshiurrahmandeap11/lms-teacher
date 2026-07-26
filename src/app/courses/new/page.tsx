@@ -40,7 +40,7 @@ export default function CreateCoursePage() {
         formData.append("thumbnail", data.thumbnail[0]);
       }
 
-      await axios.post("http://localhost:6969/api/courses", formData, {
+      await axios.post("https://lms.moshiurrahman.online/api/courses", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
