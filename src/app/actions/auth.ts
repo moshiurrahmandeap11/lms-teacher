@@ -2,25 +2,19 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import axiosInstance from "@/lib/axios";
 
 export async function loginTeacher(prevState: any, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://lms.moshiurrahman.online/api'}/auth/teacher/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+    const res = await axiosInstance.post("/auth/teacher/login", {
+      email,
+      password,
     });
 
-    if (!res.ok) {
-      return { error: "Invalid credentials" };
-    }
-
-    const data = await res.json();
+    const data = res.data;
     
     if (data.data && data.data.token) {
       const cookieStore = await cookies();
@@ -34,7 +28,10 @@ export async function loginTeacher(prevState: any, formData: FormData) {
       return { error: "Login failed: No token received" };
     }
 
-  } catch (error) {
+  } catch (error: any) {
+    if (error.response) {
+      return { error: "Invalid credentials" };
+    }
     return { error: "Something went wrong" };
   }
 
