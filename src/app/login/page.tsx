@@ -16,7 +16,7 @@ export default function TeacherLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch('https://lms.moshiurrahman.online/api/auth/teacher/login', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://lms.moshiurrahman.online/api'}/auth/teacher/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
