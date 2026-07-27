@@ -1,43 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useActionState } from 'react';
+import { loginTeacher } from '@/app/actions/auth';
 
 export default function TeacherLogin() {
-  const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://lms.moshiurrahman.online/api'}/auth/teacher/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // If backend sets HTTP-only cookie, we just redirect
-      router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred during login');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [state, formAction, isPending] = useActionState(loginTeacher, undefined);
 
   return (
     <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -55,12 +22,12 @@ export default function TeacherLogin() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-background-primary py-8 px-4 shadow-level1 sm:rounded-lg sm:px-10 border border-border">
-          {error && (
+          {state?.error && (
             <div className="mb-4 bg-red-50 border-l-4 border-red-500 p-4">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700">{state.error}</p>
             </div>
           )}
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6" action={formAction}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-1">
                 Email address
@@ -72,8 +39,6 @@ export default function TeacherLogin() {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent sm:text-sm transition-all duration-200"
                 />
               </div>
@@ -90,8 +55,6 @@ export default function TeacherLogin() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-border rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent sm:text-sm transition-all duration-200"
                 />
               </div>
@@ -120,10 +83,10 @@ export default function TeacherLogin() {
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={isPending}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-secondary hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-all duration-200 hover:shadow-level2 disabled:opacity-50"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {isPending ? 'Signing in...' : 'Sign in'}
               </button>
             </div>
           </form>
