@@ -5,35 +5,7 @@ import { useState } from "react";
 import { MoreHorizontal, Plus, Users, PlayCircle } from "lucide-react";
 
 // Mock data
-const COURSES = [
-  {
-    id: "c1",
-    title: "Italian For Beginners",
-    thumbnail: "https://images.unsplash.com/photo-1516483638261-f4dafaf00bc6?q=80&w=300&auto=format&fit=crop",
-    students: 124,
-    status: "Published",
-    modules: 4,
-    earnings: "$2,400"
-  },
-  {
-    id: "c2",
-    title: "Advanced React Patterns",
-    thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=300&auto=format&fit=crop",
-    students: 85,
-    status: "Draft",
-    modules: 2,
-    earnings: "$0"
-  },
-  {
-    id: "c3",
-    title: "IELTS Academic Mastery",
-    thumbnail: "https://images.unsplash.com/photo-1546410531-b44c6883a9d9?q=80&w=300&auto=format&fit=crop",
-    students: 312,
-    status: "Published",
-    modules: 12,
-    earnings: "$8,950"
-  }
-];
+const COURSES: any[] = [];
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState(COURSES);

@@ -1,12 +1,11 @@
 import DashboardLayout from "@/components/DashboardLayout";
 
 export default function Home() {
-  // Dummy data for now, could be fetched via react-query
   const stats = [
-    { label: "Total Enrolled Students", value: "1,248" },
-    { label: "Total Earnings", value: "$12,450" },
-    { label: "Active Courses", value: "12" },
-    { label: "Average Rating", value: "4.8" },
+    { label: "Total Enrolled Students", value: "0" },
+    { label: "Total Earnings", value: "$0" },
+    { label: "Active Courses", value: "0" },
+    { label: "Average Rating", value: "0.0" },
   ];
 
   return (
