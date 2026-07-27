@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Check for the JWT token in cookies (HTTP-only cookies will be sent with the request)
   // We assume the cookie name is 'token' or 'access_token' or 'jwt'.
   // We will check for 'token' or 'jwt'
